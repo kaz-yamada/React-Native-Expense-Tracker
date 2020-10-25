@@ -1,21 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import HomeScreen from "./src/screens/HomeScreen";
+import NewExpenseScreen from "./src/screens/NewExpenseScreen";
+
+import { ExpensesContextProvider } from "./src/context/ExpensesContext";
+import useDatabase from "./src/hooks/useDatabase";
+
+const Stack = createStackNavigator();
+
+const App = () => {
+  const isDatabaseLoaded = useDatabase();
+
+  if (isDatabaseLoaded) {
+    return (
+      <ExpensesContextProvider>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen
+                name="Add"
+                options={{ title: "Add New Expense" }}
+                component={NewExpenseScreen}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </ExpensesContextProvider>
+    );
+  } else {
+    return null;
+  }
+};
+
+export default App;

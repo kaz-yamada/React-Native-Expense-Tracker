@@ -21,8 +21,8 @@ import { formatDate } from "../utils";
 const NewExpenseScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [value, setValue] = useState(1000);
-  const [name, setName] = useState("Foo");
+  const [value, setValue] = useState(0);
+  const [name, setName] = useState("");
 
   const { addNewExpense } = useContext(ExpensesContext);
 

@@ -12,17 +12,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+import ListItem from "../component/ExpenseListItem";
+
 import { ExpensesContext } from "../context/ExpensesContext";
 import { BUTTON, COLORS, FONTS, SPACING } from "../styles/theme";
 import { LineChart } from "react-native-chart-kit";
 import { getDateRange } from "../utils";
-import ListItem from "../component/ExpenseListItem";
 import ExpenseListItem from "../component/ExpenseListItem";
 
 const HomeScreen = ({ navigation }) => {
   const { monthlyData, latestData } = useContext(ExpensesContext);
-
-  console.log(latestData);
 
   if (!monthlyData) {
     return (
@@ -72,7 +71,9 @@ const HomeScreen = ({ navigation }) => {
       {latestData && (
         <FlatList
           data={latestData}
+          style={styles.list}
           renderItem={ExpenseListItem}
+          contentContainerStyle={{ paddingBottom: BUTTON.HEIGHT * 3 }}
           keyExtractor={({ id }) => `${id}`}
         />
       )}
@@ -94,6 +95,10 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: FONTS.SIZE_LARGE,
+  },
+  list: {
+    flex: 1,
+    width: "100%",
   },
   floatingButton: {
     backgroundColor: BUTTON.BACKGROUND_COLOR,
